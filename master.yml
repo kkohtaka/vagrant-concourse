@@ -4,4 +4,4 @@
 - hosts: master
   become: yes
   roles:
-    - docker
+  - docker

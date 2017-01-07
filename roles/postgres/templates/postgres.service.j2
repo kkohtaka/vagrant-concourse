@@ -1,0 +1,22 @@
+# Copyright (c) 2016 Kazumasa Kohtaka. All rights reserved.
+# This file is available under the MIT license.
+
+[Unit]
+Description=Postgres
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=on-failure
+RestartSec=10
+ExecStartPre=-/usr/bin/docker kill %p
+ExecStartPre=-/usr/bin/docker rm %p
+ExecStart=/usr/bin/docker run \
+	--name %p \
+	--publish-all \
+	--env-file /etc/default/postgres \
+	postgres:{{ postgres_version }}
+ExecStop=-/usr/bin/docker stop %p
+
+[Install]
+WantedBy=multi-user.target

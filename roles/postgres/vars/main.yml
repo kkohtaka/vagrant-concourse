@@ -1,7 +1,4 @@
 # Copyright (c) 2016 Kazumasa Kohtaka. All rights reserved.
 # This file is available under the MIT license.
 
-- hosts: db
-  become: yes
-  roles:
-  - postgres
+postgres_version: 9.6.1

@@ -41,7 +41,10 @@ Vagrant.configure("2") do |config|
       "db" => ["db"]
     }
     ansible.extra_vars = {
-      "ansible_python_interpreter" => "/usr/bin/python3"
+      "ansible_python_interpreter" => "/usr/bin/python3",
+      "postgres_user" => "concourse",
+      "postgres_password" => "LsRw0RD2jKJcyp1HuXaDqB5FNY83vKtw",
+      "postgres_db" => "concourse"
     }
   end
 end
