@@ -1,0 +1,49 @@
+# Copyright (c) 2016 Kazumasa Kohtaka. All rights reserved.
+# This file is available under the MIT license.
+
+- name: create directory to store TLS keys
+  file:
+    path: /etc/concourse/keys
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: install TSA host public key
+  copy:
+    src: keys/tsa_host_key.pub
+    dest: /etc/concourse/keys/
+    owner: root
+    group: root
+    mode: 0400
+
+- name: install worker key
+  copy:
+    src: keys/worker_key
+    dest: /etc/concourse/keys/
+    owner: root
+    group: root
+    mode: 0400
+
+- name: install concourse-worker environment file
+  template:
+    src: concourse-worker.env.j2
+    dest: /etc/default/concourse-worker
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart concourse-worker service
+
+- name: install concourse-worker service
+  template:
+    src: concourse-worker.service.j2
+    dest: /etc/systemd/system/concourse-worker.service
+    owner: root
+    group: root
+    mode: 0644
+
+- name: ensure concourse-worker service started
+  systemd:
+    name: concourse-worker
+    state: started
+    daemon_reload: yes

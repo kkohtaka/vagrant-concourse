@@ -42,6 +42,12 @@ Vagrant.configure("2") do |config|
     }
     ansible.extra_vars = {
       "ansible_python_interpreter" => "/usr/bin/python3",
+
+      "tsa_address" => "192.168.1.10",
+      "basic_auth_username" => "concourse",
+      "basic_auth_password" => "concourse",
+
+      "postgres_address" => "192.168.3.10",
       "postgres_user" => "concourse",
       "postgres_password" => "LsRw0RD2jKJcyp1HuXaDqB5FNY83vKtw",
       "postgres_db" => "concourse"

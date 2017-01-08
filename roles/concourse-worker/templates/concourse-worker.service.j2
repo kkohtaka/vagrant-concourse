@@ -2,7 +2,7 @@
 # This file is available under the MIT license.
 
 [Unit]
-Description=Postgres
+Description=Concourse
 Requires=docker.service
 After=docker.service
 
@@ -13,9 +13,12 @@ ExecStartPre=-/usr/bin/docker kill %p
 ExecStartPre=-/usr/bin/docker rm %p
 ExecStart=/usr/bin/docker run \
 	--name %p \
-	--publish 5432:5432 \
-	--env-file /etc/default/postgres \
-	postgres:{{ postgres_version }}
+	--net host \
+	--privileged \
+	--env-file /etc/default/concourse-worker \
+	--volume /etc/concourse:/etc/concourse \
+	--volume /var/concourse:/var/concourse \
+	concourse/concourse:{{ concourse_version }} worker
 ExecStop=-/usr/bin/docker stop %p
 
 [Install]

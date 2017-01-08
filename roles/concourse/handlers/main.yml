@@ -1,7 +1,8 @@
 # Copyright (c) 2016 Kazumasa Kohtaka. All rights reserved.
 # This file is available under the MIT license.
 
-- hosts: workers
-  become: true
-  roles:
-  - concourse-worker
+- name: restart concourse service
+  systemd:
+    name: concourse
+    state: restarted
+    daemon_reload: yes
